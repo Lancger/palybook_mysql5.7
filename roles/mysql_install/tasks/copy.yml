@@ -1,9 +1,18 @@
 #复制源码至目标服务器
-- name: copy mysql source code to client
-  copy: src=mysql80-community-release-el7-1.noarch.rpm dest={{rpm_dir}} owner=root group=root
-#复制配置文件至目标服务器
-# - name: copy my.cnf to client
-#   copy: src=my.cnf dest=/etc/my.cnf owner=root group=root
-# #复制模板文件至目标服务器
-# - name: copy mysql install script to client
-#   template: src=mysql_install.sh dest={{source_dir}} owner=root group=root mode=0775
+#Centos6服务器
+- name: copy mysql rpm to client centos6
+  tags: conf
+  copy: src=mysql-community-release-el6-5.noarch.rpm dest={{rpm_dir}} owner=root group=root
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "6"
+  #when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "7") or (ansible_distribution == "Debian" and ansible_distribution_major_version == "7")
+
+#Centos7服务器
+- name: copy mysql rpm to client centos7
+  tags: copy_rpm
+  copy: src=mysql-community-release-el7-5.noarch.rpm dest={{rpm_dir}} owner=root group=root
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+- name: copy my.cnf to client
+  template: src=my.cnf.c{{ ansible_distribution_major_version }}.j2 dest=/etc/my.cnf
+  tags: conf
+  notify: restart mysql

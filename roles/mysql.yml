@@ -1,5 +1,5 @@
-- hosts: ansible-playbook
+- hosts: mysql
   remote_user: root
-  gather_facts: False
+  gather_facts: True
   roles:
     - mysql_install

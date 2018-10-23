@@ -1,2 +1,2 @@
-mysql_version: mysql-5.7.23
-rpm_dir: /home/
+mysql_version: mysql-5.6.41
+rpm_dir: /opt/
